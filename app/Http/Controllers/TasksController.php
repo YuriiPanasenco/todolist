@@ -53,7 +53,14 @@ class TasksController extends Controller
         }
     }
 
+    public function share($taskId, $userId){
+        $task = Task::find($taskId);
 
+
+        $task->shareUsers()->save(User::find($userId));
+        $task->save();
+        return response($task->shareusers, 200);
+    }
 
     public function delete($id){
         $task = Task::find($id);

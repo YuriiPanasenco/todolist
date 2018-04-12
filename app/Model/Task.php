@@ -13,4 +13,8 @@ class Task extends Model
     public function status(){
         return $this->belongsTo('App\Model\Task');
     }
+
+    public function shareUsers(){
+        return $this->belongsToMany('App\User','share_todo', 'task_id','user_id');
+    }
 }

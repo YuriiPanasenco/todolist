@@ -22,5 +22,9 @@ Route::get('/tasks', 'TasksController@index')->middleware('auth')->name('tasks')
 Route::post('/tasks/add', 'TasksController@add')->middleware('auth')->name('tasks.add');
 Route::post('/tasks/update', 'TasksController@update')->middleware('auth')->name('tasks.update');
 Route::get('/tasks/delete/{id}', 'TasksController@delete')->middleware('auth')->name('tasks.delete');
+Route::get('/tasks/share/{taskid}/{userid}', 'TasksController@share')->middleware('auth')->name('tasks.share');
 
 Route::get('/statuses', 'StatusController@index')->middleware('auth')->name('statuses');
+
+
+Route::get('/users/search/{search}', 'UsersController@search')->middleware('auth')->name('users.search');

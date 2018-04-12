@@ -6,11 +6,8 @@
 
         <div class="modal-footer">
             <slot name="footer">
-                <button class="yes" @click="$emit('yes')">
-                 	Yes
-                </button>
-                <button class="no" @click="$emit('no')">
-                 	No
+                <button class="yes" @click="$emit('ok')">
+                 	Ok
                 </button>
             </slot>
           </div>
@@ -43,9 +40,6 @@ button:hover{
 }
 .yes{
 	background-color: #3fb338f5;
-}
-.no{
-	background-color:#dc472df5;
 }
 
 </style>

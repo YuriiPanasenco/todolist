@@ -6,6 +6,12 @@
                 Вы действиетельно хотите удали задачу: {{currenttask.name}}?
             </yesNo>
         </modal>
+
+        <shareTask v-show='showShareTaskModel'
+                    :task="currenttask"
+                    @close="showShareTaskModel=false">
+        </shareTask>
+
         <modal v-show='showEditForm'>
             <vue-form :state="formstate" @submit.prevent="saveTask">
 
@@ -59,7 +65,8 @@
                           :key="task.id"
                           :task="task"
                           @deleteTask="deleteTask"
-                          @editTask="editTask">
+                          @editTask="editTask"
+                          @shareTask="shareTask">
                 </taskItem>
             </ul>
         </div>
@@ -112,6 +119,7 @@
                 search: '',
                 currenttask: new Task(),
                 tasks: [],
+                showShareTaskModel:false,
                 statuses: [],
                 formstate: {}, //need for vue-for this is used for form validation
             };
@@ -120,6 +128,7 @@
             'modal': require('./modal/Modal.vue'),
             'yesNo': require('./modal/YesOrNo.vue'),
             'taskItem': require('./Tasktem.vue'),
+            'shareTask': require('./ModalShareTask.vue'),
         },
         computed: {
             formCheck(){
@@ -166,7 +175,6 @@
                                 if (responce.data[i].status_id != null) {
                                     task.status = new Status(responce.data[i].status_id, '');
                                 }
-                                //todo status from the server
                                 this.tasks.push(task);
                             }
                             this.loadStatuses();
@@ -192,7 +200,7 @@
             },
             setTaskStatuse(status){
                 for (let i = 0; i < this.tasks.length; i++) {
-                    if (this.tasks[i].status!=undefined && this.tasks[i].status.id == status.id) {
+                    if (this.tasks[i].status != undefined && this.tasks[i].status.id == status.id) {
                         this.tasks[i].status = status;
                     }
                 }
@@ -218,6 +226,7 @@
                                 for (let i = 0; i < this.tasks.length; i++) {
                                     if (this.tasks[i].id == this.currenttask.id) {
                                         this.$set(this.tasks, i, this.currenttask);
+                                        this.currenttask = new Task();
                                         break;
                                     }
                                 }
@@ -227,6 +236,10 @@
                     );
                 }
                 this.showEditForm = false;
+            },
+            shareTask(task){
+                this.currenttask = task;
+                this.showShareTaskModel=true;
             },
             deleteTask(task){
                 this.currenttask = task;
