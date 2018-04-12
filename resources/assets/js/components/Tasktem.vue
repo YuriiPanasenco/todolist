@@ -2,7 +2,7 @@
     <li>
         {{task.name}}
         <div class="rigth-block">
-            <a @click='shareTask'><i  class="far fa-share-square"></i></a>
+            <a @click='shareTask'><i class="far fa-share-square"></i></a>
             <a @click='editTask'><i class="far fa-edit"></i></a>
             <a @click='deleteTask'><i class="far fa-trash-alt"></i></a>
         </div>
@@ -46,7 +46,8 @@
         position: relative;
         transition-duration: 0.2s;
     }
-    li:hover{
+
+    li:hover {
         background-color: #fff4cc;
         transform: scale(1.03);
         box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);

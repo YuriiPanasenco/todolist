@@ -12,7 +12,7 @@
                 <button @click="closeTheWindow">cancle</button>
             </div>
         </modal>
-        <modal v-show="showMessage" >
+        <modal v-show="showMessage">
             <message @ok="closeTheWindow">
                 Вы успешно полелились задачей: {{task.name}}
             </message>
@@ -21,11 +21,8 @@
 </template>
 <script>
 
-    var User = function (id, name, mail) {
-        this.id = id;
-        this.name = name;
-        this.mail = mail;
-    };
+    import User from '../model/User';
+
     export default{
         props: ['task'],
 
@@ -89,15 +86,15 @@
 
                 this.$http.get('/tasks/share/' + this.task.id + '/' + this.user.id).then(
                         function () {
-                            this.showMessage=true;
+                            this.showMessage = true;
                         }, function (error) {
                             //todo: error of sharing
                         }
                 );
             },
             closeTheWindow(){
-                this.search='';
-                this.showMessage=false;
+                this.search = '';
+                this.showMessage = false;
                 this.$emit('close');
             }
         }
@@ -105,7 +102,7 @@
 </script>
 <style>
 
-    button{
+    button {
         background-color: #3d8adc;
         color: white;
         border: none;

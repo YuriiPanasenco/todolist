@@ -1,54 +1,20 @@
 <template>
     <div>
-
         <div class='block'>
             <input class='search' type="text" placeholder="Search.." v-model='search' :class="{'search-s':isSearch}">
         </div>
         <div class='block'>
             <ul>
-                <li v-for="task in filteredTasks " >{{task.name}} {{}}</li>
+                <li v-for="task in filteredTasks ">{{task.name}}</li>
             </ul>
         </div>
     </div>
-
 </template>
 
 <script>
 
-    Array.prototype.remove = function () {
-        var what, a = arguments, L = a.length, ax;
-        while (L && this.length) {
-            what = a[--L];
-            while ((ax = this.indexOf(what)) !== -1) {
-                this.splice(ax, 1);
-            }
-        }
-        return this;
-    };
-    var Status = function (id, name) {
-        this.id = id;
-        this.name = name;
-
-        this.copy = function () {
-            return new Status(this.id, this.name);
-        }
-    };
-    var Task = function (id, name, description) {
-        this.id = id === undefined ? -1 : id;
-        this.name = name;
-        this.description = description;
-        this.status;
-        this.copy = function () {
-            let task = new Task(this.id, this.name, this.description);
-            if (this.status != null) {
-                task.status = this.status.copy();
-            }
-            return task;
-        };
-        this.isNew = function () {
-            return this.id == -1;
-        };
-    };
+    import Status from '../model/Status';
+    import Task from '../model/Task';
 
     export default {
         data(){
@@ -102,6 +68,7 @@
             loadTasks(){
                 this.$http.get('/tasks/availables').then(
                         function (responce) {
+                            console.log(responce);
                             for (let i = 0; i < responce.data.length; i++) {
                                 let task = new Task(
                                         responce.data[i].id,
@@ -139,19 +106,10 @@
         border-radius: 5px;
     }
 
-
     ul {
         padding: 0px;
     }
-    li {
-        width: 100%;
-        margin: 10px 0px;
-        background-color: #e5edf8;
-        border-radius: 5px;
-        padding: 10px;
-        list-style: none;
-        position: relative;
-    }
+
     li {
         width: 100%;
         margin: 10px 0px;
@@ -162,7 +120,8 @@
         position: relative;
         transition-duration: 0.2s;
     }
-    li:hover{
+
+    li:hover {
         background-color: #fff4cc;
         transform: scale(1.03);
         box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);

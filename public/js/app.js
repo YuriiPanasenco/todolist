@@ -1458,6 +1458,20 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_2_vue_
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.http.headers.common['X-CSRF-TOKEN'] = document.head.querySelector('meta[name="csrf-token"]').content;
 
+Array.prototype.remove = function () {
+    var what,
+        a = arguments,
+        L = a.length,
+        ax;
+    while (L && this.length) {
+        what = a[--L];
+        while ((ax = this.indexOf(what)) !== -1) {
+            this.splice(ax, 1);
+        }
+    }
+    return this;
+};
+
 var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
     el: '#app',
 
@@ -46531,6 +46545,8 @@ module.exports = function listToStyles (parentId, list) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__model_Status__ = __webpack_require__(95);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__model_Task__ = __webpack_require__(96);
 //
 //
 //
@@ -46609,43 +46625,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 
-Array.prototype.remove = function () {
-    var what,
-        a = arguments,
-        L = a.length,
-        ax;
-    while (L && this.length) {
-        what = a[--L];
-        while ((ax = this.indexOf(what)) !== -1) {
-            this.splice(ax, 1);
-        }
-    }
-    return this;
-};
-var Status = function Status(id, name) {
-    this.id = id;
-    this.name = name;
 
-    this.copy = function () {
-        return new Status(this.id, this.name);
-    };
-};
-var Task = function Task(id, name, description) {
-    this.id = id === undefined ? -1 : id;
-    this.name = name;
-    this.description = description;
-    this.status;
-    this.copy = function () {
-        var task = new Task(this.id, this.name, this.description);
-        if (this.status != null) {
-            task.status = this.status.copy();
-        }
-        return task;
-    };
-    this.isNew = function () {
-        return this.id == -1;
-    };
-};
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -46653,7 +46634,7 @@ var Task = function Task(id, name, description) {
             showDeleteModal: false,
             showEditForm: false,
             search: '',
-            currenttask: new Task(),
+            currenttask: new __WEBPACK_IMPORTED_MODULE_1__model_Task__["a" /* default */](),
             tasks: [],
             showShareTaskModel: false,
             statuses: [],
@@ -46705,9 +46686,9 @@ var Task = function Task(id, name, description) {
         loadTasks: function loadTasks() {
             this.$http.get('/tasks').then(function (responce) {
                 for (var i = 0; i < responce.data.length; i++) {
-                    var task = new Task(responce.data[i].id, responce.data[i].name, responce.data[i].description);
+                    var task = new __WEBPACK_IMPORTED_MODULE_1__model_Task__["a" /* default */](responce.data[i].id, responce.data[i].name, responce.data[i].description);
                     if (responce.data[i].status_id != null) {
-                        task.status = new Status(responce.data[i].status_id, '');
+                        task.status = new __WEBPACK_IMPORTED_MODULE_0__model_Status__["a" /* default */](responce.data[i].status_id, '');
                     }
                     this.tasks.push(task);
                 }
@@ -46720,7 +46701,7 @@ var Task = function Task(id, name, description) {
             //this function work after loaded tasks in method create
             this.$http.get('/statuses').then(function (responce) {
                 for (var i = 0; i < responce.data.length; i++) {
-                    var status = new Status(responce.data[i].id, responce.data[i].name);
+                    var status = new __WEBPACK_IMPORTED_MODULE_0__model_Status__["a" /* default */](responce.data[i].id, responce.data[i].name);
                     this.statuses.push(status);
                     this.setTaskStatuse(status);
                 }
@@ -46744,7 +46725,7 @@ var Task = function Task(id, name, description) {
                 this.$http.post('/tasks/add', JSON.stringify(this.currenttask)).then(function (responce) {
                     this.currenttask.id = responce.body.id;
                     this.tasks.push(this.currenttask);
-                    this.currenttask = new Task();
+                    this.currenttask = new __WEBPACK_IMPORTED_MODULE_1__model_Task__["a" /* default */]();
                 }, function () {
                     //todo : error add task on the server
                 });
@@ -46753,7 +46734,7 @@ var Task = function Task(id, name, description) {
                     for (var i = 0; i < this.tasks.length; i++) {
                         if (this.tasks[i].id == this.currenttask.id) {
                             this.$set(this.tasks, i, this.currenttask);
-                            this.currenttask = new Task();
+                            this.currenttask = new __WEBPACK_IMPORTED_MODULE_1__model_Task__["a" /* default */]();
                             break;
                         }
                     }
@@ -46787,7 +46768,7 @@ var Task = function Task(id, name, description) {
         },
         deleteTaskBreak: function deleteTaskBreak() {
             this.showDeleteModal = false;
-            this.currenttask = new Task();
+            this.currenttask = new __WEBPACK_IMPORTED_MODULE_1__model_Task__["a" /* default */]();
         },
         editTask: function editTask(task) {
             this.currenttask = task.copy();
@@ -46795,7 +46776,7 @@ var Task = function Task(id, name, description) {
         },
         editTaskBreak: function editTaskBreak() {
             this.showEditForm = false;
-            this.currenttask = new Task();
+            this.currenttask = new __WEBPACK_IMPORTED_MODULE_1__model_Task__["a" /* default */]();
         }
     }
 });
@@ -47148,7 +47129,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n.rigth-block[data-v-0d2a2de0] {\n    position: absolute;\n    right: 2%;\n    top: 20%;\n}\n.rigth-block a[data-v-0d2a2de0] {\n    margin: 3px;\n}\nli[data-v-0d2a2de0] {\n    width: 100%;\n    margin: 10px 0px;\n    background-color: #d4ebff7a;\n    border-radius: 5px;\n    padding: 10px;\n    list-style: none;\n    position: relative;\n    -webkit-transition-duration: 0.2s;\n            transition-duration: 0.2s;\n}\nli[data-v-0d2a2de0]:hover{\n    background-color: #fff4cc;\n    -webkit-transform: scale(1.03);\n            transform: scale(1.03);\n    -webkit-box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);\n            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);\n}\nbutton[data-v-0d2a2de0] {\n    float: right;\n    margin: 0px 3px;\n}\n", ""]);
+exports.push([module.i, "\n.rigth-block[data-v-0d2a2de0] {\n    position: absolute;\n    right: 2%;\n    top: 20%;\n}\n.rigth-block a[data-v-0d2a2de0] {\n    margin: 3px;\n}\nli[data-v-0d2a2de0] {\n    width: 100%;\n    margin: 10px 0px;\n    background-color: #d4ebff7a;\n    border-radius: 5px;\n    padding: 10px;\n    list-style: none;\n    position: relative;\n    -webkit-transition-duration: 0.2s;\n            transition-duration: 0.2s;\n}\nli[data-v-0d2a2de0]:hover {\n    background-color: #fff4cc;\n    -webkit-transform: scale(1.03);\n            transform: scale(1.03);\n    -webkit-box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);\n            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);\n}\nbutton[data-v-0d2a2de0] {\n    float: right;\n    margin: 0px 3px;\n}\n", ""]);
 
 // exports
 
@@ -47306,7 +47287,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\nbutton{\n    background-color: #3d8adc;\n    color: white;\n    border: none;\n    border-radius: 3px;\n    padding: 3px 10px;\n}\n.footer {\n    width: 100%;\n    padding-top: 20px;\n}\ninput {\n    width: 100%;\n    border-radius: 3px;\n    line-height: 30px;\n    font-size: 16px;\n}\n", ""]);
+exports.push([module.i, "\nbutton {\n    background-color: #3d8adc;\n    color: white;\n    border: none;\n    border-radius: 3px;\n    padding: 3px 10px;\n}\n.footer {\n    width: 100%;\n    padding-top: 20px;\n}\ninput {\n    width: 100%;\n    border-radius: 3px;\n    line-height: 30px;\n    font-size: 16px;\n}\n", ""]);
 
 // exports
 
@@ -47317,6 +47298,7 @@ exports.push([module.i, "\nbutton{\n    background-color: #3d8adc;\n    color: w
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__model_User__ = __webpack_require__(93);
 //
 //
 //
@@ -47340,11 +47322,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 
-var User = function User(id, name, mail) {
-    this.id = id;
-    this.name = name;
-    this.mail = mail;
-};
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['task'],
 
@@ -47388,7 +47367,7 @@ var User = function User(id, name, mail) {
             this.$http.get('/users/search/' + this.search).then(function (responce) {
                 this.users = [];
                 for (var i = 0; i < responce.data.length; i++) {
-                    var user = new User(responce.data[i].id, responce.data[i].name, responce.data[i].email);
+                    var user = new __WEBPACK_IMPORTED_MODULE_0__model_User__["a" /* default */](responce.data[i].id, responce.data[i].name, responce.data[i].email);
                     this.users.push(user);
                 }
             }, function (error) {
@@ -48069,8 +48048,8 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__model_Status__ = __webpack_require__(95);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__model_Task__ = __webpack_require__(96);
 //
 //
 //
@@ -48086,43 +48065,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 
-Array.prototype.remove = function () {
-    var what,
-        a = arguments,
-        L = a.length,
-        ax;
-    while (L && this.length) {
-        what = a[--L];
-        while ((ax = this.indexOf(what)) !== -1) {
-            this.splice(ax, 1);
-        }
-    }
-    return this;
-};
-var Status = function Status(id, name) {
-    this.id = id;
-    this.name = name;
 
-    this.copy = function () {
-        return new Status(this.id, this.name);
-    };
-};
-var Task = function Task(id, name, description) {
-    this.id = id === undefined ? -1 : id;
-    this.name = name;
-    this.description = description;
-    this.status;
-    this.copy = function () {
-        var task = new Task(this.id, this.name, this.description);
-        if (this.status != null) {
-            task.status = this.status.copy();
-        }
-        return task;
-    };
-    this.isNew = function () {
-        return this.id == -1;
-    };
-};
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -48130,7 +48074,7 @@ var Task = function Task(id, name, description) {
             showDeleteModal: false,
             showEditForm: false,
             search: '',
-            currenttask: new Task(),
+            currenttask: new __WEBPACK_IMPORTED_MODULE_1__model_Task__["a" /* default */](),
             tasks: [],
             showShareTaskModel: false,
             statuses: [],
@@ -48178,10 +48122,11 @@ var Task = function Task(id, name, description) {
     methods: {
         loadTasks: function loadTasks() {
             this.$http.get('/tasks/availables').then(function (responce) {
+                console.log(responce);
                 for (var i = 0; i < responce.data.length; i++) {
-                    var task = new Task(responce.data[i].id, responce.data[i].name, responce.data[i].description);
+                    var task = new __WEBPACK_IMPORTED_MODULE_1__model_Task__["a" /* default */](responce.data[i].id, responce.data[i].name, responce.data[i].description);
                     if (responce.data[i].status_id != null) {
-                        task.status = new Status(responce.data[i].status_id, '');
+                        task.status = new __WEBPACK_IMPORTED_MODULE_0__model_Status__["a" /* default */](responce.data[i].status_id, '');
                     }
                     this.tasks.push(task);
                 }
@@ -48229,7 +48174,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\nselect[data-v-1e5d42f6] {\n    width: 100%;\n    background-color: white;\n    border: none;\n    border-bottom: 1px solid;\n    height: 30px;\n}\nlabel[data-v-1e5d42f6] {\n    width: 100%;\n}\ntextarea[data-v-1e5d42f6] {\n    width: 100%;\n    border-radius: 5px;\n}\nul[data-v-1e5d42f6] {\n    padding: 0px;\n}\nli[data-v-1e5d42f6] {\n    width: 100%;\n    margin: 10px 0px;\n    background-color: #e5edf8;\n    border-radius: 5px;\n    padding: 10px;\n    list-style: none;\n    position: relative;\n}\nli[data-v-1e5d42f6] {\n    width: 100%;\n    margin: 10px 0px;\n    background-color: #d4ebff7a;\n    border-radius: 5px;\n    padding: 10px;\n    list-style: none;\n    position: relative;\n    -webkit-transition-duration: 0.2s;\n            transition-duration: 0.2s;\n}\nli[data-v-1e5d42f6]:hover{\n    background-color: #fff4cc;\n    -webkit-transform: scale(1.03);\n            transform: scale(1.03);\n    -webkit-box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);\n            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);\n}\n.block[data-v-1e5d42f6] {\n    max-width: 700px;\n    margin-left: auto;\n    margin-right: auto;\n    border-radius: 15px;\n    padding: 10px;\n    text-align: left;\n}\n.search[data-v-1e5d42f6] {\n    width: 130px;\n    -webkit-box-sizing: border-box;\n            box-sizing: border-box;\n    border: 2px solid #ccc;\n    border-radius: 4px;\n    font-size: 16px;\n    background-color: white;\n    background-image: url(" + escape(__webpack_require__(49)) + ");\n    background-position: 10px 10px;\n    background-size: 25px;\n    background-repeat: no-repeat;\n    padding: 12px 20px 12px 40px;\n    -webkit-transition: width 0.4s ease-in-out;\n    transition: width 0.4s ease-in-out;\n}\n.search[data-v-1e5d42f6]:focus, .search-s[data-v-1e5d42f6] {\n    width: calc(100%);\n}\n", ""]);
+exports.push([module.i, "\nselect[data-v-1e5d42f6] {\n    width: 100%;\n    background-color: white;\n    border: none;\n    border-bottom: 1px solid;\n    height: 30px;\n}\nlabel[data-v-1e5d42f6] {\n    width: 100%;\n}\ntextarea[data-v-1e5d42f6] {\n    width: 100%;\n    border-radius: 5px;\n}\nul[data-v-1e5d42f6] {\n    padding: 0px;\n}\nli[data-v-1e5d42f6] {\n    width: 100%;\n    margin: 10px 0px;\n    background-color: #d4ebff7a;\n    border-radius: 5px;\n    padding: 10px;\n    list-style: none;\n    position: relative;\n    -webkit-transition-duration: 0.2s;\n            transition-duration: 0.2s;\n}\nli[data-v-1e5d42f6]:hover {\n    background-color: #fff4cc;\n    -webkit-transform: scale(1.03);\n            transform: scale(1.03);\n    -webkit-box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);\n            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);\n}\n.block[data-v-1e5d42f6] {\n    max-width: 700px;\n    margin-left: auto;\n    margin-right: auto;\n    border-radius: 15px;\n    padding: 10px;\n    text-align: left;\n}\n.search[data-v-1e5d42f6] {\n    width: 130px;\n    -webkit-box-sizing: border-box;\n            box-sizing: border-box;\n    border: 2px solid #ccc;\n    border-radius: 4px;\n    font-size: 16px;\n    background-color: white;\n    background-image: url(" + escape(__webpack_require__(49)) + ");\n    background-position: 10px 10px;\n    background-size: 25px;\n    background-repeat: no-repeat;\n    padding: 12px 20px 12px 40px;\n    -webkit-transition: width 0.4s ease-in-out;\n    transition: width 0.4s ease-in-out;\n}\n.search[data-v-1e5d42f6]:focus, .search-s[data-v-1e5d42f6] {\n    width: calc(100%);\n}\n", ""]);
 
 // exports
 
@@ -48272,7 +48217,7 @@ var render = function() {
       _c(
         "ul",
         _vm._l(_vm.filteredTasks, function(task) {
-          return _c("li", [_vm._v(_vm._s(task.name) + " {{}}")])
+          return _c("li", [_vm._v(_vm._s(task.name))])
         })
       )
     ])
@@ -48287,6 +48232,96 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-1e5d42f6", module.exports)
   }
 }
+
+/***/ }),
+/* 93 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var User = function User(id, name, mail) {
+    _classCallCheck(this, User);
+
+    this.id = id;
+    this.name = name;
+    this.mail = mail;
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (User);
+;
+
+/***/ }),
+/* 94 */,
+/* 95 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Status = function () {
+    function Status(id, name) {
+        _classCallCheck(this, Status);
+
+        this.id = id;
+        this.name = name;
+    }
+
+    _createClass(Status, [{
+        key: "copy",
+        value: function copy() {
+            return new Status(this.id, this.name);
+        }
+    }]);
+
+    return Status;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = (Status);
+;
+
+/***/ }),
+/* 96 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Task = function () {
+    function Task(id, name, description) {
+        _classCallCheck(this, Task);
+
+        this.id = id === undefined ? -1 : id;
+        this.name = name;
+        this.description = description;
+        this.status;
+    }
+
+    _createClass(Task, [{
+        key: "copy",
+        value: function copy() {
+            var task = new Task(this.id, this.name, this.description);
+            if (this.status != null) {
+                task.status = this.status.copy();
+            }
+            return task;
+        }
+    }, {
+        key: "isNew",
+        value: function isNew() {
+            return this.id == -1;
+        }
+    }]);
+
+    return Task;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = (Task);
+;
 
 /***/ })
 /******/ ]);

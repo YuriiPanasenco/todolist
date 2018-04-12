@@ -8,8 +8,8 @@
         </modal>
 
         <shareTask v-show='showShareTaskModel'
-                    :task="currenttask"
-                    @close="showShareTaskModel=false">
+                   :task="currenttask"
+                   @close="showShareTaskModel=false">
         </shareTask>
 
         <modal v-show='showEditForm'>
@@ -76,40 +76,8 @@
 
 <script>
 
-    Array.prototype.remove = function () {
-        var what, a = arguments, L = a.length, ax;
-        while (L && this.length) {
-            what = a[--L];
-            while ((ax = this.indexOf(what)) !== -1) {
-                this.splice(ax, 1);
-            }
-        }
-        return this;
-    };
-    var Status = function (id, name) {
-        this.id = id;
-        this.name = name;
-
-        this.copy = function () {
-            return new Status(this.id, this.name);
-        }
-    };
-    var Task = function (id, name, description) {
-        this.id = id === undefined ? -1 : id;
-        this.name = name;
-        this.description = description;
-        this.status;
-        this.copy = function () {
-            let task = new Task(this.id, this.name, this.description);
-            if (this.status != null) {
-                task.status = this.status.copy();
-            }
-            return task;
-        };
-        this.isNew = function () {
-            return this.id == -1;
-        };
-    };
+    import Status from '../model/Status';
+    import Task from '../model/Task';
 
     export default {
         data(){
@@ -119,7 +87,7 @@
                 search: '',
                 currenttask: new Task(),
                 tasks: [],
-                showShareTaskModel:false,
+                showShareTaskModel: false,
                 statuses: [],
                 formstate: {}, //need for vue-for this is used for form validation
             };
@@ -238,7 +206,7 @@
             },
             shareTask(task){
                 this.currenttask = task;
-                this.showShareTaskModel=true;
+                this.showShareTaskModel = true;
             },
             deleteTask(task){
                 this.currenttask = task;
