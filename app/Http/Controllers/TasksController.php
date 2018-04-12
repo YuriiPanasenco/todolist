@@ -34,9 +34,10 @@ class TasksController extends Controller
             $task->save();
             return response($task, 200);
         } else {
-            return response("not found",404);
+            return response("not found", 404);
         }
     }
+
     public function update(Request $request)
     {
         if ($request->ajax()) {
@@ -49,22 +50,45 @@ class TasksController extends Controller
             $task->save();
             return response($task, 200);
         } else {
-            return response("not found",404);
+            return response("not found", 404);
         }
     }
 
-    public function share($taskId, $userId){
-        $task = Task::find($taskId);
+    public function share(Request $request, $taskId, $userId)
+    {
+        if ($request->ajax()) {
+            $user = User::find(Auth::id());
 
+            $task = $user->tasks()->where('id', $taskId)->get()[0];
 
-        $task->shareUsers()->save(User::find($userId));
-        $task->save();
-        return response($task->shareusers, 200);
+            $task->shareUsers()->save(User::find($userId));
+            $task->save();
+            return response($task->shareusers, 200);
+        } else {
+            return response("not found", 404);
+        }
     }
 
-    public function delete($id){
-        $task = Task::find($id);
-        $task->delete();
-        return response("true", 200);
+    public function availables(Request $request)
+    {
+        if ($request->ajax()) {
+            $user = User::find(Auth::id());
+            $tasks = $user->shareTasks;
+            return response($tasks, 200);
+        } else {
+            return response("not found", 404);
+        }
+    }
+
+    public function delete(Request $request, $id)
+    {
+        if ($request->ajax()) {
+            $task = Task::find($id);
+            $task->shareUsers()->detach($task->shareUsers);
+            $task->delete();
+            return response("true", 200);
+        } else {
+            return response("not found", 404);
+        }
     }
 }

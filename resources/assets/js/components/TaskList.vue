@@ -166,7 +166,6 @@
             loadTasks(){
                 this.$http.get('/tasks').then(
                         function (responce) {
-                            console.log(responce);
                             for (let i = 0; i < responce.data.length; i++) {
                                 let task = new Task(
                                         responce.data[i].id,
@@ -355,6 +354,6 @@
     }
 
     .search:focus, .search-s {
-        width: calc(100% - 45px);
+        width: calc(100% - 55px);
     }
 </style>

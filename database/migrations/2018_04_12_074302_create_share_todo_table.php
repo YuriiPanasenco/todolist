@@ -18,6 +18,7 @@ class CreateShareTodoTable extends Migration
             $table->foreign('task_id')->references('id')->on('tasks');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
+            $table->index(['task_id', 'user_id']);
         });
     }
 

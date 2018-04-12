@@ -39,11 +39,18 @@
     li {
         width: 100%;
         margin: 10px 0px;
-        background-color: #e5edf8;
+        background-color: #d4ebff7a;
         border-radius: 5px;
         padding: 10px;
         list-style: none;
         position: relative;
+        transition-duration: 0.2s;
+    }
+    li:hover{
+        background-color: #fff4cc;
+        transform: scale(1.03);
+        box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+
     }
 
     button {

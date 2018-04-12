@@ -12,8 +12,14 @@ Vue.http.headers.common['X-CSRF-TOKEN'] = document.head.querySelector('meta[name
 
 var app = new Vue({
     el: '#app',
+    
+    data:{
+        page:'my' //my || available
+    },
+    
     components: {
-        'tasklist': require('./components/TaskList.vue'),
+        'myTaskList': require('./components/TaskList.vue'),
+        'availableTaskList': require('./components/AvailableTaskList.vue'),
     },
 });
 

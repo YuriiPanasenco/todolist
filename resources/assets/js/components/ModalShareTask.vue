@@ -104,6 +104,15 @@
     }
 </script>
 <style>
+
+    button{
+        background-color: #3d8adc;
+        color: white;
+        border: none;
+        border-radius: 3px;
+        padding: 3px 10px;
+    }
+
     .footer {
         width: 100%;
         padding-top: 20px;
@@ -111,5 +120,8 @@
 
     input {
         width: 100%;
+        border-radius: 3px;
+        line-height: 30px;
+        font-size: 16px;
     }
 </style>
