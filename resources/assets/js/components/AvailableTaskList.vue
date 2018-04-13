@@ -6,7 +6,7 @@
         <div class='block'>
             <ul>
                 <li v-for="task in filteredTasks ">{{task.name}}
-                    {{task.author.name}}
+                    ({{task.author.name}})
                 </li>
             </ul>
         </div>
