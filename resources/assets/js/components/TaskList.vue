@@ -12,48 +12,12 @@
                    @close="showShareTaskModel=false">
         </shareTask>
 
-        <modal v-show='showEditForm'>
-            <vue-form :state="formstate" @submit.prevent="saveTask">
+        <editTask v-show='showEditForm'
+                  :task="currenttask"
+                  @break="editTaskBreak"
+                  @save= "saveTask">
+        </editTask>
 
-                <validate tag="label">
-                    <span>Name *</span>
-                    <input class="input-text" v-model="currenttask.name" required name="name"/>
-
-                    <field-messages name="name">
-                        <div class="success">Success!</div>
-                        <div slot="required" class="error">Name is a required field</div>
-                    </field-messages>
-                </validate>
-                <validate tag="label">
-                    <span>Description *</span>
-                    <textarea class="input-text" v-model="currenttask.description" required
-                              name="description"></textarea>
-
-                    <field-messages name="description">
-                        <div class="success">Success!</div>
-                        <div slot="required" class="error">Description is a required field</div>
-                    </field-messages>
-                </validate>
-
-                <validate tag="label">
-                    <span>Status *</span>
-
-                    <select required name="status" v-model="currenttask.status">
-                        <option v-for="status in statuses" :value="status">
-                            {{status.name}}
-                        </option>
-                    </select>
-                    <field-messages name="status">
-                        <div class="success">Success!</div>
-                        <div slot="required" class="error">Status is a required field</div>
-                    </field-messages>
-                </validate>
-
-                <button type="submit">Submit</button>
-                <button @click.prevent="editTaskBreak">Cancle</button>
-
-            </vue-form>
-        </modal>
 
         <div class='block'>
             <button class='btn-add-task' @click='showEditForm=true'>add</button>
@@ -88,8 +52,6 @@
                 currenttask: new Task(),
                 tasks: [],
                 showShareTaskModel: false,
-                statuses: [],
-                formstate: {}, //need for vue-for this is used for form validation
             };
         },
         components: {
@@ -97,6 +59,7 @@
             'yesNo': require('./modal/YesOrNo.vue'),
             'taskItem': require('./Tasktem.vue'),
             'shareTask': require('./ModalShareTask.vue'),
+            'editTask': require('./modal/ModalEditTodo.vue'),
         },
         computed: {
             formCheck(){
@@ -128,7 +91,6 @@
         },
         created (){
             this.loadTasks();
-            this.loadStatuses();
         },
 
         methods: {
@@ -140,31 +102,13 @@
                                 task.status = Status.buildFromJson(responce.data[i].status);
                                 this.tasks.push(task);
                             }
-                            this.loadStatuses();
                         }, function (error) {
                             //todo: error of getting all task from the server
                         }
                 );
             },
-            loadStatuses(){
-                this.$http.get('/statuses').then(
-                        function (responce) {
-                            this.statuses = [];
-                            for (let i = 0; i < responce.data.length; i++) {
-                                let status = Status.buildFromJson(responce.data[i]);
-                                this.statuses.push(status);
-                            }
-                        }, function (error) {
-                            //todo: error of getting all statuses from the server
-                        }
-                );
-            },
             saveTask(){
-                if (this.formstate.$invalid) {
-                    return;
-                }
                 if (this.currenttask.isNew()) {
-
                     this.$http.post('/tasks/add', JSON.stringify(this.currenttask)).then(
                             function (responce) {
                                 this.currenttask.id = responce.body.id;
@@ -231,37 +175,6 @@
     }
 </script>
 <style scoped>
-    .success {
-        color: #5a804d;
-    }
-
-    .error {
-        color: #ff8786;
-    }
-
-    select {
-        width: 100%;
-        background-color: white;
-        border: none;
-        border-bottom: 1px solid;
-        height: 30px;
-    }
-
-    label {
-        width: 100%;
-    }
-
-    textarea {
-        width: 100%;
-        border-radius: 5px;
-    }
-
-    .input-text {
-        width: 100%;
-        border-radius: 5px;
-        line-height: 30px;
-    }
-
     ul {
         padding: 0px;
     }

@@ -46773,7 +46773,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n.success[data-v-4b5a210c] {\n    color: #5a804d;\n}\n.error[data-v-4b5a210c] {\n    color: #ff8786;\n}\nselect[data-v-4b5a210c] {\n    width: 100%;\n    background-color: white;\n    border: none;\n    border-bottom: 1px solid;\n    height: 30px;\n}\nlabel[data-v-4b5a210c] {\n    width: 100%;\n}\ntextarea[data-v-4b5a210c] {\n    width: 100%;\n    border-radius: 5px;\n}\n.input-text[data-v-4b5a210c] {\n    width: 100%;\n    border-radius: 5px;\n    line-height: 30px;\n}\nul[data-v-4b5a210c] {\n    padding: 0px;\n}\n.btn-add-task[data-v-4b5a210c] {\n    border: none;\n    border-radius: 5px;\n    height: 35px;\n    background-color: #addeac;\n    color: #000000;\n}\n.btn-add-task[data-v-4b5a210c]:hover {\n    background-color: #64c162;\n    color: #000;\n    -webkit-box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);\n            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);\n    -webkit-transform: scale(1.1);\n            transform: scale(1.1);\n    -webkit-backface-visibility: hidden;\n            backface-visibility: hidden;\n    -webkit-transition: 0.2s;\n    transition: 0.2s;\n}\n.block[data-v-4b5a210c] {\n    max-width: 700px;\n    margin-left: auto;\n    margin-right: auto;\n    border-radius: 15px;\n    padding: 10px;\n    text-align: left;\n}\n.search[data-v-4b5a210c] {\n    width: 130px;\n    -webkit-box-sizing: border-box;\n            box-sizing: border-box;\n    border: 2px solid #ccc;\n    border-radius: 4px;\n    font-size: 16px;\n    background-color: white;\n    background-image: url(" + escape(__webpack_require__(15)) + ");\n    background-position: 10px 10px;\n    background-size: 25px;\n    background-repeat: no-repeat;\n    padding: 12px 20px 12px 40px;\n    -webkit-transition: width 0.4s ease-in-out;\n    transition: width 0.4s ease-in-out;\n}\n.search[data-v-4b5a210c]:focus, .search-s[data-v-4b5a210c] {\n    width: calc(100% - 55px);\n}\n", ""]);
+exports.push([module.i, "\nul[data-v-4b5a210c] {\n    padding: 0px;\n}\n.btn-add-task[data-v-4b5a210c] {\n    border: none;\n    border-radius: 5px;\n    height: 35px;\n    background-color: #addeac;\n    color: #000000;\n}\n.btn-add-task[data-v-4b5a210c]:hover {\n    background-color: #64c162;\n    color: #000;\n    -webkit-box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);\n            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);\n    -webkit-transform: scale(1.1);\n            transform: scale(1.1);\n    -webkit-backface-visibility: hidden;\n            backface-visibility: hidden;\n    -webkit-transition: 0.2s;\n    transition: 0.2s;\n}\n.block[data-v-4b5a210c] {\n    max-width: 700px;\n    margin-left: auto;\n    margin-right: auto;\n    border-radius: 15px;\n    padding: 10px;\n    text-align: left;\n}\n.search[data-v-4b5a210c] {\n    width: 130px;\n    -webkit-box-sizing: border-box;\n            box-sizing: border-box;\n    border: 2px solid #ccc;\n    border-radius: 4px;\n    font-size: 16px;\n    background-color: white;\n    background-image: url(" + escape(__webpack_require__(15)) + ");\n    background-position: 10px 10px;\n    background-size: 25px;\n    background-repeat: no-repeat;\n    padding: 12px 20px 12px 40px;\n    -webkit-transition: width 0.4s ease-in-out;\n    transition: width 0.4s ease-in-out;\n}\n.search[data-v-4b5a210c]:focus, .search-s[data-v-4b5a210c] {\n    width: calc(100% - 55px);\n}\n", ""]);
 
 // exports
 
@@ -46859,42 +46859,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -46908,9 +46872,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             search: '',
             currenttask: new __WEBPACK_IMPORTED_MODULE_1__model_Task__["a" /* default */](),
             tasks: [],
-            showShareTaskModel: false,
-            statuses: [],
-            formstate: {} //need for vue-for this is used for form validation
+            showShareTaskModel: false
         };
     },
 
@@ -46918,7 +46880,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         'modal': __webpack_require__(7),
         'yesNo': __webpack_require__(18),
         'taskItem': __webpack_require__(19),
-        'shareTask': __webpack_require__(20)
+        'shareTask': __webpack_require__(20),
+        'editTask': __webpack_require__(95)
     },
     computed: {
         formCheck: function formCheck() {
@@ -46951,7 +46914,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     created: function created() {
         this.loadTasks();
-        this.loadStatuses();
     },
 
 
@@ -46963,28 +46925,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     task.status = __WEBPACK_IMPORTED_MODULE_0__model_Status__["a" /* default */].buildFromJson(responce.data[i].status);
                     this.tasks.push(task);
                 }
-                this.loadStatuses();
             }, function (error) {
                 //todo: error of getting all task from the server
             });
         },
-        loadStatuses: function loadStatuses() {
-            this.$http.get('/statuses').then(function (responce) {
-                this.statuses = [];
-                for (var i = 0; i < responce.data.length; i++) {
-                    var status = __WEBPACK_IMPORTED_MODULE_0__model_Status__["a" /* default */].buildFromJson(responce.data[i]);
-                    this.statuses.push(status);
-                }
-            }, function (error) {
-                //todo: error of getting all statuses from the server
-            });
-        },
         saveTask: function saveTask() {
-            if (this.formstate.$invalid) {
-                return;
-            }
             if (this.currenttask.isNew()) {
-
                 this.$http.post('/tasks/add', JSON.stringify(this.currenttask)).then(function (responce) {
                     this.currenttask.id = responce.body.id;
                     this.tasks.push(this.currenttask);
@@ -47812,211 +47758,18 @@ var render = function() {
         }
       }),
       _vm._v(" "),
-      _c(
-        "modal",
-        {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.showEditForm,
-              expression: "showEditForm"
-            }
-          ]
-        },
-        [
-          _c(
-            "vue-form",
-            {
-              attrs: { state: _vm.formstate },
-              on: {
-                submit: function($event) {
-                  $event.preventDefault()
-                  return _vm.saveTask($event)
-                }
-              }
-            },
-            [
-              _c(
-                "validate",
-                { attrs: { tag: "label" } },
-                [
-                  _c("span", [_vm._v("Name *")]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.currenttask.name,
-                        expression: "currenttask.name"
-                      }
-                    ],
-                    staticClass: "input-text",
-                    attrs: { required: "", name: "name" },
-                    domProps: { value: _vm.currenttask.name },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(_vm.currenttask, "name", $event.target.value)
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("field-messages", { attrs: { name: "name" } }, [
-                    _c("div", { staticClass: "success" }, [_vm._v("Success!")]),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass: "error",
-                        attrs: { slot: "required" },
-                        slot: "required"
-                      },
-                      [_vm._v("Name is a required field")]
-                    )
-                  ])
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "validate",
-                { attrs: { tag: "label" } },
-                [
-                  _c("span", [_vm._v("Description *")]),
-                  _vm._v(" "),
-                  _c("textarea", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.currenttask.description,
-                        expression: "currenttask.description"
-                      }
-                    ],
-                    staticClass: "input-text",
-                    attrs: { required: "", name: "description" },
-                    domProps: { value: _vm.currenttask.description },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          _vm.currenttask,
-                          "description",
-                          $event.target.value
-                        )
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("field-messages", { attrs: { name: "description" } }, [
-                    _c("div", { staticClass: "success" }, [_vm._v("Success!")]),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass: "error",
-                        attrs: { slot: "required" },
-                        slot: "required"
-                      },
-                      [_vm._v("Description is a required field")]
-                    )
-                  ])
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "validate",
-                { attrs: { tag: "label" } },
-                [
-                  _c("span", [_vm._v("Status *")]),
-                  _vm._v(" "),
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.currenttask.status,
-                          expression: "currenttask.status"
-                        }
-                      ],
-                      attrs: { required: "", name: "status" },
-                      on: {
-                        change: function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.$set(
-                            _vm.currenttask,
-                            "status",
-                            $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          )
-                        }
-                      }
-                    },
-                    _vm._l(_vm.statuses, function(status) {
-                      return _c("option", { domProps: { value: status } }, [
-                        _vm._v(
-                          "\n                        " +
-                            _vm._s(status.name) +
-                            "\n                    "
-                        )
-                      ])
-                    })
-                  ),
-                  _vm._v(" "),
-                  _c("field-messages", { attrs: { name: "status" } }, [
-                    _c("div", { staticClass: "success" }, [_vm._v("Success!")]),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass: "error",
-                        attrs: { slot: "required" },
-                        slot: "required"
-                      },
-                      [_vm._v("Status is a required field")]
-                    )
-                  ])
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c("button", { attrs: { type: "submit" } }, [_vm._v("Submit")]),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      return _vm.editTaskBreak($event)
-                    }
-                  }
-                },
-                [_vm._v("Cancle")]
-              )
-            ],
-            1
-          )
+      _c("editTask", {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.showEditForm,
+            expression: "showEditForm"
+          }
         ],
-        1
-      ),
+        attrs: { task: _vm.currenttask },
+        on: { break: _vm.editTaskBreak, save: _vm.saveTask }
+      }),
       _vm._v(" "),
       _c("div", { staticClass: "block" }, [
         _c(
@@ -48173,7 +47926,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\nselect[data-v-1e5d42f6] {\n    width: 100%;\n    background-color: white;\n    border: none;\n    border-bottom: 1px solid;\n    height: 30px;\n}\nlabel[data-v-1e5d42f6] {\n    width: 100%;\n}\ntextarea[data-v-1e5d42f6] {\n    width: 100%;\n    border-radius: 5px;\n}\nul[data-v-1e5d42f6] {\n    padding: 0px;\n}\nli[data-v-1e5d42f6] {\n    width: 100%;\n    margin: 10px 0px;\n    background-color: #d4ebff7a;\n    border-radius: 5px;\n    padding: 10px;\n    list-style: none;\n    position: relative;\n    -webkit-transition-duration: 0.2s;\n            transition-duration: 0.2s;\n}\nli[data-v-1e5d42f6]:hover {\n    background-color: #fff4cc;\n    -webkit-transform: scale(1.03);\n            transform: scale(1.03);\n    -webkit-box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);\n            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);\n}\n.block[data-v-1e5d42f6] {\n    max-width: 700px;\n    margin-left: auto;\n    margin-right: auto;\n    border-radius: 15px;\n    padding: 10px;\n    text-align: left;\n}\n.search[data-v-1e5d42f6] {\n    width: 130px;\n    -webkit-box-sizing: border-box;\n            box-sizing: border-box;\n    border: 2px solid #ccc;\n    border-radius: 4px;\n    font-size: 16px;\n    background-color: white;\n    background-image: url(" + escape(__webpack_require__(15)) + ");\n    background-position: 10px 10px;\n    background-size: 25px;\n    background-repeat: no-repeat;\n    padding: 12px 20px 12px 40px;\n    -webkit-transition: width 0.4s ease-in-out;\n    transition: width 0.4s ease-in-out;\n}\n.search[data-v-1e5d42f6]:focus, .search-s[data-v-1e5d42f6] {\n    width: calc(100%);\n}\n", ""]);
+exports.push([module.i, "\n.rigth-block[data-v-1e5d42f6] {\n    position: absolute;\n    right: 2%;\n    top: 20%;\n}\n.rigth-block a[data-v-1e5d42f6] {\n    margin: 3px;\n}\nselect[data-v-1e5d42f6] {\n    width: 100%;\n    background-color: white;\n    border: none;\n    border-bottom: 1px solid;\n    height: 30px;\n}\nlabel[data-v-1e5d42f6] {\n    width: 100%;\n}\ntextarea[data-v-1e5d42f6] {\n    width: 100%;\n    border-radius: 5px;\n}\nul[data-v-1e5d42f6] {\n    padding: 0px;\n}\nli[data-v-1e5d42f6] {\n    width: 100%;\n    margin: 10px 0px;\n    background-color: #d4ebff7a;\n    border-radius: 5px;\n    padding: 10px;\n    list-style: none;\n    position: relative;\n    -webkit-transition-duration: 0.2s;\n            transition-duration: 0.2s;\n}\nli[data-v-1e5d42f6]:hover {\n    background-color: #fff4cc;\n    -webkit-transform: scale(1.03);\n            transform: scale(1.03);\n    -webkit-box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);\n            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);\n}\n.block[data-v-1e5d42f6] {\n    max-width: 700px;\n    margin-left: auto;\n    margin-right: auto;\n    border-radius: 15px;\n    padding: 10px;\n    text-align: left;\n}\n.search[data-v-1e5d42f6] {\n    width: 130px;\n    -webkit-box-sizing: border-box;\n            box-sizing: border-box;\n    border: 2px solid #ccc;\n    border-radius: 4px;\n    font-size: 16px;\n    background-color: white;\n    background-image: url(" + escape(__webpack_require__(15)) + ");\n    background-position: 10px 10px;\n    background-size: 25px;\n    background-repeat: no-repeat;\n    padding: 12px 20px 12px 40px;\n    -webkit-transition: width 0.4s ease-in-out;\n    transition: width 0.4s ease-in-out;\n}\n.search[data-v-1e5d42f6]:focus, .search-s[data-v-1e5d42f6] {\n    width: calc(100%);\n}\n", ""]);
 
 // exports
 
@@ -48202,6 +47955,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -48211,12 +47968,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            showDeleteModal: false,
             showEditForm: false,
             search: '',
             currenttask: new __WEBPACK_IMPORTED_MODULE_1__model_Task__["a" /* default */](),
             tasks: [],
-            showShareTaskModel: false,
             statuses: [],
             formstate: {} //need for vue-for this is used for form validation
         };
@@ -48273,7 +48028,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }, function (error) {
                 //todo: error of getting all available task from the server
             });
-        }
+        },
+        editTask: function editTask(task) {}
     }
 });
 
@@ -48320,8 +48076,21 @@ var render = function() {
               _vm._s(task.name) +
                 "\n                (" +
                 _vm._s(task.author.name) +
-                ")\n            "
-            )
+                ")\n\n                "
+            ),
+            _c("div", { staticClass: "rigth-block" }, [
+              _c(
+                "a",
+                {
+                  on: {
+                    click: function($event) {
+                      _vm.editTask(task)
+                    }
+                  }
+                },
+                [_c("i", { staticClass: "far fa-edit" })]
+              )
+            ])
           ])
         })
       )
@@ -50981,6 +50750,403 @@ if (inBrowser && window.Vue) {
 
 /* harmony default export */ __webpack_exports__["a"] = (VueRouter);
 
+
+/***/ }),
+/* 95 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(96)
+}
+var normalizeComponent = __webpack_require__(3)
+/* script */
+var __vue_script__ = __webpack_require__(98)
+/* template */
+var __vue_template__ = __webpack_require__(99)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-53d50874"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/modal/ModalEditTodo.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-53d50874", Component.options)
+  } else {
+    hotAPI.reload("data-v-53d50874", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 96 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(97);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("ef00beba", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-53d50874\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ModalEditTodo.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-53d50874\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ModalEditTodo.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 97 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\nlabel[data-v-53d50874] {\n    width: 100%;\n}\ntextarea[data-v-53d50874] {\n    width: 100%;\n    border-radius: 5px;\n}\nselect[data-v-53d50874] {\n    width: 100%;\n    background-color: white;\n    border: none;\n    border-bottom: 1px solid;\n    height: 30px;\n}\n.success[data-v-53d50874] {\n    color: #5a804d;\n}\n.error[data-v-53d50874] {\n    color: #ff8786;\n}\n.input-text[data-v-53d50874] {\n    width: 100%;\n    border-radius: 5px;\n    line-height: 30px;\n}\n.modal-enter .modal-container[data-v-53d50874],\n.modal-leave-active .modal-container[data-v-53d50874] {\n    -webkit-transform: scale(1.1);\n    transform: scale(1.1);\n}\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 98 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__model_Status__ = __webpack_require__(16);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['task'],
+
+    data: function data() {
+        return {
+            formstate: {}, //need for vue-for this is used for form validation
+            statuses: []
+        };
+    },
+
+    components: {
+        'modal': __webpack_require__(7)
+    },
+    created: function created() {
+        this.loadStatuses();
+    },
+
+    methods: {
+        loadStatuses: function loadStatuses() {
+            this.$http.get('/statuses').then(function (responce) {
+                this.statuses = [];
+                for (var i = 0; i < responce.data.length; i++) {
+                    var status = __WEBPACK_IMPORTED_MODULE_0__model_Status__["a" /* default */].buildFromJson(responce.data[i]);
+                    this.statuses.push(status);
+                }
+            }, function (error) {
+                //todo: error of getting all statuses from the server
+            });
+        },
+        save: function save() {
+            if (this.formstate.$invalid) {
+                return;
+            }
+            this.$emit('save');
+        },
+        breakEdit: function breakEdit() {
+            this.$emit('break');
+        }
+    }
+
+});
+
+/***/ }),
+/* 99 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "modal",
+    [
+      _c(
+        "vue-form",
+        {
+          attrs: { state: _vm.formstate },
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              return _vm.save($event)
+            }
+          }
+        },
+        [
+          _c(
+            "validate",
+            { attrs: { tag: "label" } },
+            [
+              _c("span", [_vm._v("Name *")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.task.name,
+                    expression: "task.name"
+                  }
+                ],
+                staticClass: "input-text",
+                attrs: { required: "", name: "name" },
+                domProps: { value: _vm.task.name },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.task, "name", $event.target.value)
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("field-messages", { attrs: { name: "name" } }, [
+                _c("div", { staticClass: "success" }, [_vm._v("Success!")]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "error",
+                    attrs: { slot: "required" },
+                    slot: "required"
+                  },
+                  [_vm._v("Name is a required field")]
+                )
+              ])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "validate",
+            { attrs: { tag: "label" } },
+            [
+              _c("span", [_vm._v("Description *")]),
+              _vm._v(" "),
+              _c("textarea", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.task.description,
+                    expression: "task.description"
+                  }
+                ],
+                staticClass: "input-text",
+                attrs: { required: "", name: "description" },
+                domProps: { value: _vm.task.description },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.task, "description", $event.target.value)
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("field-messages", { attrs: { name: "description" } }, [
+                _c("div", { staticClass: "success" }, [_vm._v("Success!")]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "error",
+                    attrs: { slot: "required" },
+                    slot: "required"
+                  },
+                  [_vm._v("Description is a required field")]
+                )
+              ])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "validate",
+            { attrs: { tag: "label" } },
+            [
+              _c("span", [_vm._v("Status *")]),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.task.status,
+                      expression: "task.status"
+                    }
+                  ],
+                  attrs: { required: "", name: "status" },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.task,
+                        "status",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
+                  }
+                },
+                _vm._l(_vm.statuses, function(status) {
+                  return _c("option", { domProps: { value: status } }, [
+                    _vm._v(
+                      "\n                    " +
+                        _vm._s(status.name) +
+                        "\n                "
+                    )
+                  ])
+                })
+              ),
+              _vm._v(" "),
+              _c("field-messages", { attrs: { name: "status" } }, [
+                _c("div", { staticClass: "success" }, [_vm._v("Success!")]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "error",
+                    attrs: { slot: "required" },
+                    slot: "required"
+                  },
+                  [_vm._v("Status is a required field")]
+                )
+              ])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("button", { attrs: { type: "submit" } }, [_vm._v("Submit")]),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.breakEdit($event)
+                }
+              }
+            },
+            [_vm._v("Cancle")]
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-53d50874", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

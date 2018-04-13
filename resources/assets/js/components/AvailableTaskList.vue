@@ -7,6 +7,10 @@
             <ul>
                 <li v-for="task in filteredTasks ">{{task.name}}
                     ({{task.author.name}})
+
+                    <div class="rigth-block">
+                        <a @click='editTask(task)'><i class="far fa-edit"></i></a>
+                    </div>
                 </li>
             </ul>
         </div>
@@ -22,12 +26,10 @@
     export default {
         data(){
             return {
-                showDeleteModal: false,
                 showEditForm: false,
                 search: '',
                 currenttask: new Task(),
                 tasks: [],
-                showShareTaskModel: false,
                 statuses: [],
                 formstate: {}, //need for vue-for this is used for form validation
             };
@@ -84,10 +86,23 @@
                     }
                 );
             },
+            editTask(task){
+
+            }
         },
     }
 </script>
 <style scoped>
+
+    .rigth-block {
+        position: absolute;
+        right: 2%;
+        top: 20%;
+    }
+
+    .rigth-block a {
+        margin: 3px;
+    }
 
     select {
         width: 100%;
