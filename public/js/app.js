@@ -1779,12 +1779,10 @@ Array.prototype.remove = function () {
     return this;
 };
 
-var router = new __WEBPACK_IMPORTED_MODULE_3_vue_router__["a" /* default */]({
-    routes: [{ path: '/', component: __WEBPACK_IMPORTED_MODULE_5__components_TaskList_vue___default.a }, { path: '/available', component: __WEBPACK_IMPORTED_MODULE_4__components_AvailableTaskList_vue___default.a }]
-
-});
 var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
-    router: router
+    router: new __WEBPACK_IMPORTED_MODULE_3_vue_router__["a" /* default */]({
+        routes: [{ path: '/', component: __WEBPACK_IMPORTED_MODULE_5__components_TaskList_vue___default.a }, { path: '/available', component: __WEBPACK_IMPORTED_MODULE_4__components_AvailableTaskList_vue___default.a }]
+    })
 }).$mount('#app');
 
 /***/ }),
@@ -46972,6 +46970,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         loadStatuses: function loadStatuses() {
             this.$http.get('/statuses').then(function (responce) {
+                this.statuses = [];
                 for (var i = 0; i < responce.data.length; i++) {
                     var status = __WEBPACK_IMPORTED_MODULE_0__model_Status__["a" /* default */].buildFromJson(responce.data[i]);
                     this.statuses.push(status);

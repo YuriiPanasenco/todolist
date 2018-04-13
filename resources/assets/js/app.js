@@ -26,15 +26,13 @@ Array.prototype.remove = function () {
     return this;
 };
 
-const router = new VueRouter({
-    routes:[
-        { path: '/', component:TaskList },
-        { path: '/available', component:Available }
-    ],
-
-});
 var app = new Vue({
-    router:router,
+    router: new VueRouter({
+        routes: [
+            {path: '/', component: TaskList},
+            {path: '/available', component: Available}
+        ],
+    }),
 }).$mount('#app');
 
 

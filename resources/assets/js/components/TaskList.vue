@@ -149,6 +149,7 @@
             loadStatuses(){
                 this.$http.get('/statuses').then(
                         function (responce) {
+                            this.statuses = [];
                             for (let i = 0; i < responce.data.length; i++) {
                                 let status = Status.buildFromJson(responce.data[i]);
                                 this.statuses.push(status);
