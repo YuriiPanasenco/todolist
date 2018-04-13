@@ -5,7 +5,9 @@
         </div>
         <div class='block'>
             <ul>
-                <li v-for="task in filteredTasks ">{{task.name}}</li>
+                <li v-for="task in filteredTasks ">{{task.name}}
+                    {{task.author.name}}
+                </li>
             </ul>
         </div>
     </div>
@@ -15,6 +17,7 @@
 
     import Status from '../model/Status';
     import Task from '../model/Task';
+    import User from '../model/User';
 
     export default {
         data(){
@@ -68,20 +71,17 @@
             loadTasks(){
                 this.$http.get('/tasks/availables').then(
                         function (responce) {
-                            console.log(responce);
                             for (let i = 0; i < responce.data.length; i++) {
-                                let task = new Task(
-                                        responce.data[i].id,
-                                        responce.data[i].name,
-                                        responce.data[i].description);
+                                let task = Task.buildFromJson(responce.data[i]);
                                 if (responce.data[i].status_id != null) {
                                     task.status = new Status(responce.data[i].status_id, '');
                                 }
+                                task.author = User.buildFromJson(responce.data[i].user);
                                 this.tasks.push(task);
                             }
-                        }, function (error) {
-                            //todo: error of getting all available task
-                        }
+                    }, function (error) {
+                        //todo: error of getting all available task from the server
+                    }
                 );
             },
         },

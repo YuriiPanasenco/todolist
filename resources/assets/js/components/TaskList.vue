@@ -128,6 +128,7 @@
         },
         created (){
             this.loadTasks();
+            this.loadStatuses();
         },
 
         methods: {
@@ -135,42 +136,27 @@
                 this.$http.get('/tasks').then(
                         function (responce) {
                             for (let i = 0; i < responce.data.length; i++) {
-                                let task = new Task(
-                                        responce.data[i].id,
-                                        responce.data[i].name,
-                                        responce.data[i].description);
-                                if (responce.data[i].status_id != null) {
-                                    task.status = new Status(responce.data[i].status_id, '');
-                                }
+                                let task = Task.buildFromJson(responce.data[i]);
+                                task.status = Status.buildFromJson(responce.data[i].status);
                                 this.tasks.push(task);
                             }
                             this.loadStatuses();
                         }, function (error) {
-                            //todo: error of getting all task
+                            //todo: error of getting all task from the server
                         }
                 );
             },
-            loadStatuses(){ //this function work after loaded tasks in method create
+            loadStatuses(){
                 this.$http.get('/statuses').then(
                         function (responce) {
                             for (let i = 0; i < responce.data.length; i++) {
-                                let status = new Status(
-                                        responce.data[i].id,
-                                        responce.data[i].name);
+                                let status = Status.buildFromJson(responce.data[i]);
                                 this.statuses.push(status);
-                                this.setTaskStatuse(status);
                             }
                         }, function (error) {
-                            //todo: error of getting all statuses
+                            //todo: error of getting all statuses from the server
                         }
                 );
-            },
-            setTaskStatuse(status){
-                for (let i = 0; i < this.tasks.length; i++) {
-                    if (this.tasks[i].status != undefined && this.tasks[i].status.id == status.id) {
-                        this.tasks[i].status = status;
-                    }
-                }
             },
             saveTask(){
                 if (this.formstate.$invalid) {
@@ -222,7 +208,7 @@
                                 }
                             }
                         }, function (error) {
-                            //todo: show error message
+                            //todo: error of deleting the task from the server
                             console.log(error);
                         }
                 );

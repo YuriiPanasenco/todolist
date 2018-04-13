@@ -11,7 +11,7 @@ class Task extends Model
     }
     
     public function status(){
-        return $this->belongsTo('App\Model\Task');
+        return $this->belongsTo('App\Model\Status');
     }
 
     public function shareUsers(){

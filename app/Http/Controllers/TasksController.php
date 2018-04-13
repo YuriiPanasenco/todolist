@@ -15,7 +15,7 @@ class TasksController extends Controller
     {
         if ($request->ajax()) {
             $user = User::find(Auth::id());
-            $tasks = $user->tasks;
+            $tasks = $user->tasks()->with('status')->get()->toJson();
             return response($tasks, 200);
         } else {
             return response("not found", 404);

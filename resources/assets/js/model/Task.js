@@ -1,5 +1,11 @@
 export default class Task {
 
+
+
+    static buildFromJson(json) {
+        return new Task(json.id, json.name, json.description);
+    }
+
     constructor(id, name, description) {
         this.id = id === undefined ? -1 : id;
         this.name = name;
