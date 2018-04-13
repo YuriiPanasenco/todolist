@@ -47959,6 +47959,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -47978,10 +47986,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     components: {
-        'modal': __webpack_require__(7),
-        'yesNo': __webpack_require__(18),
-        'taskItem': __webpack_require__(19),
-        'shareTask': __webpack_require__(20)
+        'editTask': __webpack_require__(95)
     },
     computed: {
         isSearch: function isSearch() {
@@ -48020,7 +48025,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 for (var i = 0; i < responce.data.length; i++) {
                     var task = __WEBPACK_IMPORTED_MODULE_1__model_Task__["a" /* default */].buildFromJson(responce.data[i]);
                     if (responce.data[i].status_id != null) {
-                        task.status = new __WEBPACK_IMPORTED_MODULE_0__model_Status__["a" /* default */](responce.data[i].status_id, '');
+                        task.status = __WEBPACK_IMPORTED_MODULE_0__model_Status__["a" /* default */].buildFromJson(responce.data[i].status);
                     }
                     task.author = __WEBPACK_IMPORTED_MODULE_2__model_User__["a" /* default */].buildFromJson(responce.data[i].user);
                     this.tasks.push(task);
@@ -48029,7 +48034,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 //todo: error of getting all available task from the server
             });
         },
-        editTask: function editTask(task) {}
+        saveTask: function saveTask() {
+            this.$http.post('/tasks/update', JSON.stringify(this.currenttask)).then(function () {
+                for (var i = 0; i < this.tasks.length; i++) {
+                    if (this.tasks[i].id == this.currenttask.id) {
+                        this.$set(this.tasks, i, this.currenttask);
+                        this.currenttask = new __WEBPACK_IMPORTED_MODULE_1__model_Task__["a" /* default */]();
+                        break;
+                    }
+                }
+            }, function () {
+                //todo : error add task on the server
+            });
+            this.showEditForm = false;
+        },
+        editTask: function editTask(task) {
+            this.currenttask = task.copy();
+            this.showEditForm = true;
+        },
+        editTaskBreak: function editTaskBreak() {
+            this.showEditForm = false;
+            this.currenttask = new __WEBPACK_IMPORTED_MODULE_1__model_Task__["a" /* default */]();
+        }
     }
 });
 
@@ -48041,61 +48067,76 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { staticClass: "block" }, [
-      _c("input", {
+  return _c(
+    "div",
+    [
+      _c("editTask", {
         directives: [
           {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.search,
-            expression: "search"
+            name: "show",
+            rawName: "v-show",
+            value: _vm.showEditForm,
+            expression: "showEditForm"
           }
         ],
-        staticClass: "search",
-        class: { "search-s": _vm.isSearch },
-        attrs: { type: "text", placeholder: "Search.." },
-        domProps: { value: _vm.search },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
+        attrs: { task: _vm.currenttask },
+        on: { break: _vm.editTaskBreak, save: _vm.saveTask }
+      }),
+      _vm._v(" "),
+      _c("div", { staticClass: "block" }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.search,
+              expression: "search"
             }
-            _vm.search = $event.target.value
+          ],
+          staticClass: "search",
+          class: { "search-s": _vm.isSearch },
+          attrs: { type: "text", placeholder: "Search.." },
+          domProps: { value: _vm.search },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.search = $event.target.value
+            }
           }
-        }
-      })
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "block" }, [
-      _c(
-        "ul",
-        _vm._l(_vm.filteredTasks, function(task) {
-          return _c("li", [
-            _vm._v(
-              _vm._s(task.name) +
-                "\n                (" +
-                _vm._s(task.author.name) +
-                ")\n\n                "
-            ),
-            _c("div", { staticClass: "rigth-block" }, [
-              _c(
-                "a",
-                {
-                  on: {
-                    click: function($event) {
-                      _vm.editTask(task)
-                    }
-                  }
-                },
-                [_c("i", { staticClass: "far fa-edit" })]
-              )
-            ])
-          ])
         })
-      )
-    ])
-  ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "block" }, [
+        _c(
+          "ul",
+          _vm._l(_vm.filteredTasks, function(task) {
+            return _c("li", [
+              _vm._v(
+                "\n                " + _vm._s(task.name) + "\n                "
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "rigth-block" }, [
+                _c(
+                  "a",
+                  {
+                    on: {
+                      click: function($event) {
+                        _vm.editTask(task)
+                      }
+                    }
+                  },
+                  [_c("i", { staticClass: "far fa-edit" })]
+                )
+              ])
+            ])
+          })
+        )
+      ])
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

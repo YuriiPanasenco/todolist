@@ -1,12 +1,20 @@
 <template>
     <div>
+
+        <editTask v-show='showEditForm'
+                  :task="currenttask"
+                  @break="editTaskBreak"
+                  @save="saveTask">
+        </editTask>
+
         <div class='block'>
             <input class='search' type="text" placeholder="Search.." v-model='search' :class="{'search-s':isSearch}">
         </div>
         <div class='block'>
             <ul>
-                <li v-for="task in filteredTasks ">{{task.name}}
-                    ({{task.author.name}})
+                <li v-for="task in filteredTasks ">
+                    {{task.name}}
+                    <!--({{task.author.name}})-->
 
                     <div class="rigth-block">
                         <a @click='editTask(task)'><i class="far fa-edit"></i></a>
@@ -35,10 +43,7 @@
             };
         },
         components: {
-            'modal': require('./modal/Modal.vue'),
-            'yesNo': require('./modal/YesOrNo.vue'),
-            'taskItem': require('./Tasktem.vue'),
-            'shareTask': require('./ModalShareTask.vue'),
+            'editTask': require('./modal/ModalEditTodo.vue'),
         },
         computed: {
             isSearch(){
@@ -76,19 +81,40 @@
                             for (let i = 0; i < responce.data.length; i++) {
                                 let task = Task.buildFromJson(responce.data[i]);
                                 if (responce.data[i].status_id != null) {
-                                    task.status = new Status(responce.data[i].status_id, '');
+                                    task.status = Status.buildFromJson(responce.data[i].status);
                                 }
                                 task.author = User.buildFromJson(responce.data[i].user);
                                 this.tasks.push(task);
                             }
-                    }, function (error) {
-                        //todo: error of getting all available task from the server
-                    }
+                        }, function (error) {
+                            //todo: error of getting all available task from the server
+                        }
                 );
             },
+            saveTask(){
+                this.$http.post('/tasks/update', JSON.stringify(this.currenttask)).then(
+                        function () {
+                            for (let i = 0; i < this.tasks.length; i++) {
+                                if (this.tasks[i].id == this.currenttask.id) {
+                                    this.$set(this.tasks, i, this.currenttask);
+                                    this.currenttask = new Task();
+                                    break;
+                                }
+                            }
+                        }, function () {
+                            //todo : error add task on the server
+                        }
+                );
+                this.showEditForm = false;
+            },
             editTask(task){
-
-            }
+                this.currenttask = task.copy();
+                this.showEditForm = true;
+            },
+            editTaskBreak(){
+                this.showEditForm = false;
+                this.currenttask = new Task();
+            },
         },
     }
 </script>

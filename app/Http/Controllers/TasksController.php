@@ -73,7 +73,7 @@ class TasksController extends Controller
     {
         if ($request->ajax()) {
             $user = User::find(Auth::id());
-            $tasks = $user->shareTasks()->with('user')->get()->toJson();
+            $tasks = $user->shareTasks()->with('user')->with('status')->get()->toJson();
 
             return response($tasks, 200);
         } else {
