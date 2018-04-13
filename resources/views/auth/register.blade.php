@@ -8,6 +8,9 @@
                 <div class="panel-heading">Register</div>
 
                 <div class="panel-body">
+                    @if (session()->has('message'))
+                        <div class="alert alert-info">{{ session('message') }}</div>
+                    @endif
                     <form class="form-horizontal" method="POST" action="{{ route('register') }}">
                         {{ csrf_field() }}
 
@@ -16,7 +19,6 @@
 
                             <div class="col-md-6">
                                 <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
-
                                 @if ($errors->has('name'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('name') }}</strong>

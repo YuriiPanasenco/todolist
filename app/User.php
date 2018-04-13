@@ -28,11 +28,28 @@ class User extends Authenticatable
     ];
 
 
-    public function tasks(){
+    public function tasks()
+    {
         return $this->hasMany('App\Model\Task');
     }
 
-    public function shareTasks(){
-        return $this->belongsToMany('App\Model\Task','share_todo', 'user_id','task_id');
+    public function shareTasks()
+    {
+        return $this->belongsToMany('App\Model\Task', 'share_todo', 'user_id', 'task_id');
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+        static::creating(function ($user) {
+            $user->token = str_random(30);
+        });
+    }
+
+    public function confirmEmail()
+    {
+        $this->verified = true;
+        $this->token = null;
+        $this->save();
     }
 }
