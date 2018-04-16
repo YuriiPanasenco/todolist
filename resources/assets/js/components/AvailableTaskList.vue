@@ -14,7 +14,7 @@
             <ul>
                 <li v-for="task in filteredTasks ">
                     {{task.name}}
-                    <!--({{task.author.name}})-->
+                    ({{task.author.name}})
 
                     <div class="rigth-block">
                         <a @click='editTask(task)'><i class="far fa-edit"></i></a>
@@ -72,6 +72,7 @@
         },
         created (){
             this.loadTasks();
+            this.statuses = this.$store.getters.statuses;
         },
 
         methods: {

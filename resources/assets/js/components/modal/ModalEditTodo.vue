@@ -46,34 +46,17 @@
 <script>
     import Status from '../../model/Status';
     export default {
-        props:['task'],
+        props:['task','statuses'],
 
         data(){
             return{
                 formstate: {}, //need for vue-for this is used for form validation
-                statuses: [],
             };
         },
         components:{
             'modal': require('./Modal.vue'),
         },
-        created (){
-            this.loadStatuses();
-        },
         methods:{
-            loadStatuses(){
-                this.$http.get('/statuses').then(
-                        function (responce) {
-                            this.statuses = [];
-                            for (let i = 0; i < responce.data.length; i++) {
-                                let status = Status.buildFromJson(responce.data[i]);
-                                this.statuses.push(status);
-                            }
-                        }, function (error) {
-                            //todo: error of getting all statuses from the server
-                        }
-                );
-            },
             save(){
                 if (this.formstate.$invalid) {
                     return;

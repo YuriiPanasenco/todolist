@@ -14,8 +14,9 @@
 
         <editTask v-show='showEditForm'
                   :task="currenttask"
+                  :statuses="statuses"
                   @break="editTaskBreak"
-                  @save= "saveTask">
+                  @save="saveTask">
         </editTask>
 
 
@@ -52,22 +53,21 @@
                 currenttask: new Task(),
                 tasks: [],
                 showShareTaskModel: false,
+                statuses:[],
             };
         },
         components: {
             'modal': require('./modal/Modal.vue'),
             'yesNo': require('./modal/YesOrNo.vue'),
             'taskItem': require('./Tasktem.vue'),
-            'shareTask': require('./ModalShareTask.vue'),
+            'shareTask': require('./modal/ModalShareTask.vue'),
             'editTask': require('./modal/ModalEditTodo.vue'),
         },
         computed: {
-            formCheck(){
-                return this.formstate.$invalid;
-            },
             isSearch(){
                 return this.search.length > 0;
-            },
+            }
+            ,
             filteredTasks: function () {
                 var articles_array = this.tasks,
                         searchString = this.search;
@@ -89,12 +89,13 @@
                 ;
             }
         },
-        created (){
+        created() {
+            this.statuses = this.$store.getters.statuses;
             this.loadTasks();
         },
 
         methods: {
-            loadTasks(){
+            loadTasks() {
                 this.$http.get('/tasks').then(
                         function (responce) {
                             for (let i = 0; i < responce.data.length; i++) {
@@ -107,7 +108,7 @@
                         }
                 );
             },
-            saveTask(){
+            saveTask() {
                 if (this.currenttask.isNew()) {
                     this.$http.post('/tasks/add', JSON.stringify(this.currenttask)).then(
                             function (responce) {

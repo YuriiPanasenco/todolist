@@ -21,14 +21,14 @@
 </template>
 <script>
 
-    import User from '../model/User';
+    import User from '../../model/User';
 
     export default{
         props: ['task'],
 
         components: {
-            'modal': require('./modal/Modal.vue'),
-            'message': require('./modal/Message.vue'),
+            'modal': require('./Modal.vue'),
+            'message': require('./Message.vue'),
         },
         data(){
             return {
