@@ -21,18 +21,19 @@
 
 
         <div class='block'>
-            <button class='btn-add-task' @click='showEditForm=true'>add</button>
-            <input class='search' type="text" placeholder="Search.." v-model='search' :class="{'search-s':isSearch}">
+            <button v-if="isMyTask" class='btn-add-task' @click='showEditForm=true' :class="{'search-s-all':isMyTask}" >add</button>
+            <input class='search' type="text" placeholder="Search.." v-model='search' >
         </div>
         <div class='block'>
             <ul>
-                <taskItem v-for="task in filteredTasks "
-                          :key="task.id"
-                          :task="task"
-                          @deleteTask="deleteTask"
-                          @editTask="editTask"
-                          @shareTask="shareTask">
-                </taskItem>
+                <li v-for="task in filteredTasks ">
+                    {{task.name}}
+                    <div class="rigth-block">
+                        <a v-if="isMyTask" @click='shareTask(task)'><i class="far fa-share-square"></i></a>
+                        <a @click='editTask(task)'><i class="far fa-edit"></i></a>
+                        <a v-if="isMyTask" @click='deleteTask(task)'><i class="far fa-trash-alt"></i></a>
+                    </div>
+                </li>
             </ul>
         </div>
     </div>
@@ -45,6 +46,7 @@
     import Task from '../model/Task';
 
     export default {
+        props: ['type'], //type is srting variable. (my|available)
         data(){
             return {
                 showDeleteModal: false,
@@ -53,21 +55,22 @@
                 currenttask: new Task(),
                 tasks: [],
                 showShareTaskModel: false,
-                statuses:[],
+                statuses: [],
             };
         },
         components: {
             'modal': require('./modal/Modal.vue'),
             'yesNo': require('./modal/YesOrNo.vue'),
-            'taskItem': require('./Tasktem.vue'),
             'shareTask': require('./modal/ModalShareTask.vue'),
             'editTask': require('./modal/ModalEditTodo.vue'),
         },
         computed: {
+            isMyTask(){
+                return this.type === 'my';
+            },
             isSearch(){
                 return this.search.length > 0;
-            }
-            ,
+            },
             filteredTasks: function () {
                 var articles_array = this.tasks,
                         searchString = this.search;
@@ -93,10 +96,15 @@
             this.statuses = this.$store.getters.statuses;
             this.loadTasks();
         },
-
         methods: {
             loadTasks() {
-                this.$http.get('/tasks').then(
+                let requestPath = '/tasks';
+                if (this.isMyTask) {
+                    requestPath = '/tasks';
+                }else{
+                    requestPath = '/tasks/availables';
+                }
+                this.$http.get(requestPath).then(
                         function (responce) {
                             for (let i = 0; i < responce.data.length; i++) {
                                 let task = Task.buildFromJson(responce.data[i]);
@@ -108,6 +116,7 @@
                         }
                 );
             },
+
             saveTask() {
                 if (this.currenttask.isNew()) {
                     this.$http.post('/tasks/add', JSON.stringify(this.currenttask)).then(
@@ -180,7 +189,41 @@
         padding: 0px;
     }
 
+    .rigth-block {
+        position: absolute;
+        right: 2%;
+        top: 20%;
+    }
+
+    .rigth-block a {
+        margin: 3px;
+    }
+
+    li {
+        width: 100%;
+        margin: 10px 0px;
+        background-color: #d4ebff7a;
+        border-radius: 5px;
+        padding: 10px;
+        list-style: none;
+        position: relative;
+        transition-duration: 0.2s;
+    }
+
+    li:hover {
+        background-color: #fff4cc;
+        transform: scale(1.03);
+        box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+
+    }
+
+    button {
+        float: right;
+        margin: 0px 3px;
+    }
+
     .btn-add-task {
+        width: 15%;
         border: none;
         border-radius: 5px;
         height: 35px;
@@ -223,6 +266,6 @@
     }
 
     .search:focus, .search-s {
-        width: calc(100% - 55px);
+        width: 80%;
     }
 </style>

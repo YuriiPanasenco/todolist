@@ -8,10 +8,9 @@ import Vuex from 'vuex'
 
 Vue.use(VueResource)
 Vue.use(VueForm)
-Vue.use(VueRouter)
 Vue.use(Vuex)
 
-import Available from './components/AvailableTaskList.vue';
+
 import TaskList from './components/TaskList.vue';
 import Status from './model/Status';
 
@@ -64,16 +63,30 @@ const store = new Vuex.Store({
 
 var app = new Vue({
     store,
+    data(){
+        return{
+            page:'my',
+        };
+    },
+    computed:{
+        isMyTaskList(){
+            return this.page=='my';
+        }
+    },
     created(){
         this.$store.dispatch('loadStatuses',this);
     },
-    router: new VueRouter({
-        routes: [
-            {path: '/', component: TaskList},
-            {path: '/available', component: Available}
-        ],
-    }),
-
+    components:{
+        'task-list':TaskList,
+    },
+    methods:{
+        viewMyTodoList(){
+            this.page='my'
+        },
+        viewAvailableTodoList(){
+            this.page = 'available';
+        },
+    }
 }).$mount('#app');
 
 

@@ -6,14 +6,13 @@
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <router-link to="/">My todo list</router-link>
-                        <router-link to="/available">Available me todos</router-link>
+                        <a v-on:click="viewMyTodoList">My todo list</a>
+                        <a v-on:click="viewAvailableTodoList">Available me todos</a>
                     </div>
 
                     <div class="panel-body">
-                        <keep-alive>
-                            <router-view></router-view>
-                        </keep-alive>
+                        <task-list v-show="isMyTaskList" :type="'my'"></task-list>
+                        <task-list v-show="!isMyTaskList" :type="'available'"></task-list>
                     </div>
                 </div>
             </div>
